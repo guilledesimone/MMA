@@ -1,4 +1,4 @@
-﻿Date;Active_Power_ 1H_kW;Ambient_Temperature_ 1H_m_s;Wind_Direction_1H;Wind_Speed_1H_m_s;Exported_Energy_1H_kWh;Imported_Energy_1H_kWh;Reactive_Q1_1H_kVArh;Reactive_Q2_1H_kVArh;Reactive_Q3_1H_kVArh;Reactive_Q4_1H_kVArh;Humedad_Relativa;Presion_Atmosferica_mbar
+Date;Active_Power_ 1H_kW;Ambient_Temperature_ 1H_m_s;Wind_Direction_1H;Wind_Speed_1H_m_s;Exported_Energy_1H_kWh;Imported_Energy_1H_kWh;Reactive_Q1_1H_kVArh;Reactive_Q2_1H_kVArh;Reactive_Q3_1H_kVArh;Reactive_Q4_1H_kVArh;Humedad_Relativa;Presion_Atmosferica_mbar
 13/05/2022 07:00;8407,133;15,473;;7,448;12056;0;0;111;525;0;0;0
 13/05/2022 08:00;4398,54;13,814;;5,988;3768;0;0;30;3749;0;0;0
 13/05/2022 09:00;10638,646;12,576;;8,143;10686;0;0;0;3669;0;0;0
