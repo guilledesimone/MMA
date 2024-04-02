@@ -1,8 +1,18 @@
 ##Funciones de limpieza
 
+
+## Función remover_valores_repetidos: remueme los valores que estan repetidos para una columna del dataframe n o mas veces.
+## Parametros:
+## df: Dataframe con datos de series temporales
+## date_column: Columna de fecha de la serie temporal
+## column_to_check: Columna en la que se verifican repetidos
+## min_consecutive: Cantidad minimo de valores repetidos
+## verbose: Imprime el valor repetido, cantidad de veces y rango de fecha en el que se repite 
+
 def remover_valores_repetidos(df, date_column, column_to_check, min_consecutive, verbose):
     
-    from datetime import timedelta
+    from datetime import timedelta #tuve que agregarlo por que no toma la definida a nivel global
+    
     rep_count = 1
     rep_tot = 0
     start_date = None
@@ -18,7 +28,11 @@ def remover_valores_repetidos(df, date_column, column_to_check, min_consecutive,
                 rep_count += 1
                 if rep_count == min_consecutive:
                     start_date = row[date_column] - timedelta(hours=min_consecutive-1) 
-                  
+                #Es para cuando los valores repetidos estan en los ultimos registros
+                if rep_count >= min_consecutive and index == len(df) - 1:
+                    end_date = row[date_column] - timedelta(hours=1)
+                    date_ranges.append((prev_value,rep_count,start_date, end_date))
+                    rep_tot = rep_tot + rep_count
             else:
                 if rep_count >= min_consecutive:
                     end_date = row[date_column] - timedelta(hours=1)
@@ -31,6 +45,7 @@ def remover_valores_repetidos(df, date_column, column_to_check, min_consecutive,
         prev_value = row[column_to_check]
 
     if verbose=='y':
+        print(f"Se removieron {rep_tot} registros repetidos")
         for prev_value, rep_count, start, end in date_ranges:
             print(f"Remueve el valor {prev_value} repetido {rep_count} veces: {start} - {end}")
     else:
@@ -47,11 +62,18 @@ def remover_valores_repetidos(df, date_column, column_to_check, min_consecutive,
 
 ###############################################################################
 
-
+## Función rango_fechas_repe_exc: devuelve los rangos de fechas en los que existen valores repetidos para una columna del dataframe n o mas veces.
+## Parametros:
+## df: Dataframe con datos de series temporales
+## date_column: Columna de fecha de la serie temporal
+## column_to_check: Columna en la que se verifican repetidos
+## min_consecutive: Cantidad minimo de valores repetidos
+## exclude_val: Valor queda excluido en la verificación de repetidos 
 
 def rango_fechas_repe_exc(df, date_column, column_to_check, min_consecutive, exclude_val):
     
-    from datetime import timedelta
+    from datetime import timedelta #tuve que agregarlo por que no toma la definida a nivel global
+    
     rep_count = 1
     start_date = None
     end_date = None
@@ -66,7 +88,12 @@ def rango_fechas_repe_exc(df, date_column, column_to_check, min_consecutive, exc
                 rep_count += 1
                 if rep_count == min_consecutive:
                     start_date = row[date_column] - timedelta(hours=min_consecutive-1) 
-                  
+                #Es para cuando los valores repetidos estan en los ultimos registros
+                if rep_count >= min_consecutive and index == len(df) - 1:
+                    end_date = row[date_column] - timedelta(hours=1)
+                    date_ranges.append((prev_value,rep_count,start_date, end_date))
+                    rep_tot = rep_tot + rep_count      
+            
             else:
                 if rep_count >= min_consecutive:
                     end_date = row[date_column] - timedelta(hours=1)
@@ -85,9 +112,20 @@ def rango_fechas_repe_exc(df, date_column, column_to_check, min_consecutive, exc
 
 #########################################################################################
 
+
+## Función rango_fechas_repe: devuelve los rangos de fechas en los que existen valores repetidos para una columna del dataframe n o mas veces.
+## Parametros:
+## df: Dataframe con datos de series temporales
+## date_column: Columna de fecha de la serie temporal
+## column_to_check: Columna en la que se verifican repetidos
+## min_consecutive: Cantidad minimo de valores repetidos
+## verbose: Imprime el valor repetido, cantidad de veces y rango de fecha en el que se repite 
+
+
 def rango_fechas_repe(df, date_column, column_to_check, min_consecutive, verbose):
     
-    from datetime import timedelta
+    from datetime import timedelta #tuve que agregarlo por que no toma la definida a nivel global
+    
     rep_count = 1
     rep_tot = 0
     start_date = None
@@ -103,7 +141,11 @@ def rango_fechas_repe(df, date_column, column_to_check, min_consecutive, verbose
                 rep_count += 1
                 if rep_count == min_consecutive:
                     start_date = row[date_column] - timedelta(hours=min_consecutive-1) 
-                  
+                #Es para cuando los valores repetidos estan en los ultimos registros
+                if rep_count >= min_consecutive and index == len(df) - 1:
+                    end_date = row[date_column] - timedelta(hours=1)
+                    date_ranges.append((prev_value,rep_count,start_date, end_date))
+                    rep_tot = rep_tot + rep_count  
             else:
                 if rep_count >= min_consecutive:
                     end_date = row[date_column] - timedelta(hours=1)
@@ -116,9 +158,10 @@ def rango_fechas_repe(df, date_column, column_to_check, min_consecutive, verbose
         prev_value = row[column_to_check]
 
     if verbose=='y':
+        print(f"Existen {rep_tot} registros repetidos")
         for prev_value, rep_count, start, end in date_ranges:
             print(f"Valor {prev_value} repetido {rep_count} veces en las fechas: {start} - {end}")
-            print(f"Existen {rep_tot} registros repetidos")
+         
     else:
         print(f"Existen {rep_tot} registros repetidos")
 
@@ -127,11 +170,16 @@ def rango_fechas_repe(df, date_column, column_to_check, min_consecutive, verbose
 
 ##########################################################################################################
 
-#Caluculo del promedio ponderado circular
+#Función weighted_circular_mean: Caluculo del promedio ponderado circular
+## Parametros:
+## values: valor circlular a promediar
+## weights: variable que pondera en el calculo del promerdio
+
 
 def weighted_circular_mean(values, weights):
-    import numpy as np 
-        
+    
+    import numpy as np # no la toma de la definición global
+    
     dir_viento_rad = np.radians(values)
     
     # Calculations for the weighted circular mean...
