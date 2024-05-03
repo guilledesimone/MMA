@@ -23,7 +23,7 @@ def smec_data(id_smec, f_desde, f_hasta):
         'USEREMAIL': 'ap-synergy@centralpuerto.com'
     }
 
-    response = requests.get(url, headers=headers)
+    response = requests.get(url, headers=headers) #, verify=False)
     data = response.json()
 
     # Extracting channel descriptions
