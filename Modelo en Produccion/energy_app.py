@@ -37,7 +37,7 @@ def make_prediction(df_exog):
     Realiza la predicción usando el DataFrame validado y devuelve el resultado.
     """
     try:
-        predictions = pr.predict(df_exog)
+        predictions = pr.predict(df_exog.iloc[:, 1:])
     except Exception as e:
         return None, f'Prediction error: {str(e)}'
     
@@ -93,8 +93,8 @@ def energy_pred_url():
     try:
         response = requests.get(csv_url)
         response.raise_for_status()  # Levanta una excepción si ocurre un error
-        df_exog = pd.read_csv(StringIO(response.text)) 
-        #df_exog = pd.read_csv(pd.compat.StringIO(response.text))
+        df_exog = pd.read_csv(StringIO(response.text), sep=';', decimal=',')
+        
     except Exception as e:
         return jsonify(message=f"Error retrieving file from URL: {str(e)}"), 400
 
@@ -103,12 +103,17 @@ def energy_pred_url():
     if not is_valid:
         return jsonify(message=error_message), 400
 
+                
     # Realizar la predicción
     predictions, error_message = make_prediction(df_exog)
     if predictions is None:
         return jsonify(message=error_message), 500
 
     return jsonify(predictions=predictions.to_dict(orient='records'))
+
+## para llamarla desde el browser http://localhost:5000/energy_pred/url toma url por defecto
+## especificando la url http://localhost:5000/energy_pred/url?url=https://raw.githubusercontent.com/guilledesimone/MMA-Tesis/refs/heads/main/Datos/ds_exog.csv
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)

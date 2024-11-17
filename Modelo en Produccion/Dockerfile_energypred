@@ -1,0 +1,17 @@
+# Imagen padre desde la que vamos a heredar. 
+FROM python:3.11
+
+# Directorio adentro del container en donde vamos a trabajar
+WORKDIR /app_energypred
+
+# Contexto: Copia todo el contenido de este directorio adentro del container en la carpeta /app
+COPY . /app_energypred
+
+# Correr un comando, en este caso para instalar las dependencias en requirements.txt
+RUN pip install -r requirements.txt
+
+# Abre el puerto 5000 del container
+EXPOSE 5000
+
+# Cuando el container se lance va a ejecutar este comando
+CMD ["python", "energy_app.py"]
