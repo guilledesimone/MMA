@@ -23,7 +23,7 @@ modelos utilizados y la evaluacion se rendimiento:
  Por ultimo, dentro de la carpeta "Modelo en Produccion" encontraran todos los archivos necesarios para llevar 
  adelante el pasaje a produccion del modelo:
 
- 1) Energy Model in Production.ipynb: En esta notebook se guarda y empaqueta el modelo LightGBM y se dejan
+ 1) Model_Train.ipynb: En esta notebook se guarda y empaqueta el modelo LightGBM y se dejan
     todos los pasos para crear, publicar y correr la imagen en Docker. La cual tambien esta publicada en Docker Hub
  2) energy_app.py, energy_predictions.py: crea la aplicacion para para publicar en servidor web Flask el modelo
 
